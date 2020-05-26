@@ -52,7 +52,11 @@ const createError  = function(message:string, code: number) {
     }
     const image = await filterImageFromURL(image_url);
     res.status(200).sendFile(image);
-    deleteLocalFiles(image);
+    
+    res.on('finish', function() {
+      deleteLocalFiles([image]);
+    });
+    return;
   })
   
   // Root Endpoint
