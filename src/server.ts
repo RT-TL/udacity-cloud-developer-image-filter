@@ -43,12 +43,12 @@ const createError  = function(message:string, code: number) {
     const { image_url } = req.query;
 
     if(!image_url || typeof image_url !== 'string') {
-      return res.status(500).send(createError('You need to provide the image_url query parameter.', 1))
+      return res.status(422).send(createError('You need to provide the image_url query parameter.', 1))
     }
 
     const valid = await validateImage(image_url);
     if(!valid) { 
-      return res.status(500).send(createError('Invalid image URL.', 2));
+      return res.status(422).send(createError('Invalid image URL.', 2));
     }
     const image = await filterImageFromURL(image_url);
     res.status(200).sendFile(image);
